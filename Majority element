@@ -1,57 +1,41 @@
-//brute force solution using nestedloop
-
-import java.util.* ;
-import java.io.*; 
-
-public class Solution {
-	public static long maxSubarraySum(int[] arr, int n) {
-	     int maxi=0; 
-		 for(int i=0;i<=n;i++){
-			 for(int j=i;j<n;j++){
-				 int sum=0;
-				 for(int k=i;k<=j;k++){
-					 sum= sum+arr[k];
-				 }	
-				  maxi=Math.max(maxi,sum);
-			 }
-		 }
-		  return maxi; 
-	}
-}
-//better solution by reducing the time complexity to O(n^2)
-
-import java.util.* ;
-import java.io.*; 
-
-public class Solution {
-	public static long maxSubarraySum(int[] arr, int n) {
-	     int maxi=0; 
-		 for(int i=0;i<n;i++){
-			 int sum=0;
-			 for(int j=i;j<n;j++){
-			      sum= sum+arr[j];
-			 }
-		     maxi=Math.max(maxi,sum);
-                     
-		 }
-		  return maxi; 
-	}
-}
-
-//optimal sol by  Kadane's Algorithm 
-
+//better hashmap
 class Solution {
-    public int maxSubArray(int[] nums) {
-        int sum=0,maxi=nums[0];
-        for(int i=0;i<nums.length;i++){
-            sum=sum+nums[i];
-            if(sum<0)
-            sum=0;
-            else if(sum>maxi)
-            maxi=sum;
+    public int majorityElement(int[] nums) {
+        Map<Integer,Integer> Majority = new HashMap<>();
+        int N= nums.length;
+        for(int i=0;i<N;i++){
+            if(Majority.containsKey(nums[i]))
+              Majority.put(nums[i], Majority.get(nums[i])+1);
             else
-            continue;
+            Majority.put(nums[i], 1);
         }
-        return maxi;
+        //traversing through hashmap
+        for (Map.Entry<Integer, Integer> it : Majority.entrySet()) {
+            if (it.getValue() > (N / 2)) {
+                return it.getKey();
+            }
+        }
+
+        return -1;
+    }
+}
+
+//optimal Moore's voting algo
+public class Solution {
+    public static int majorityElement(int []v) {
+        int maj=v[0];
+        int cnt=1;
+        for(int i=1; i<v.length;i++){
+            if(cnt==0){
+                cnt++;
+                maj=v[i];
+            }
+            else if(v[i]==maj){
+                cnt++;
+            }
+            else 
+                cnt--;
+        }
+        return maj;
     }
 }
