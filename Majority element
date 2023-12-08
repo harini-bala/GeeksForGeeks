@@ -1,0 +1,41 @@
+// better solution- Hashmap
+class Solution {
+    public int majorityElement(int[] nums) {
+        Map<Integer,Integer> Majority = new HashMap<>();
+        int N= nums.length;
+        for(int i=0;i<N;i++){
+            if(Majority.containsKey(nums[i]))
+              Majority.put(nums[i], Majority.get(nums[i])+1);
+            else
+            Majority.put(nums[i], 1);
+        }
+        //traversing through hashmap
+        for (Map.Entry<Integer, Integer> it : Majority.entrySet()) {
+            if (it.getValue() > (N / 2)) {
+                return it.getKey();
+            }
+        }
+
+        return -1;
+    }
+}
+
+//best solution- Moore's voting algo
+public class Solution {
+    public static int majorityElement(int []v) {
+        int maj=v[0];
+        int cnt=1;
+        for(int i=1; i<v.length;i++){
+            if(cnt==0){
+                cnt++;
+                maj=v[i];
+            }
+            else if(v[i]==maj){
+                cnt++;
+            }
+            else 
+                cnt--;
+        }
+        return maj;
+    }
+}
